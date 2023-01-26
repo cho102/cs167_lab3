@@ -38,6 +38,7 @@ public class App
 //        }
 //    }
     public static void printNumbers(int from, int to, Function<Integer, Boolean> filter){
+        System.out.printf("Printing numbers in the range [%d,%d]\n", from, to);
         for (int i= from; i <= to; ++i){
             if (filter.apply(i)){
                 System.out.println(i);
@@ -81,10 +82,15 @@ public class App
         return res;
     }
     public static Function<Integer, Boolean> combineWithOr(Function<Integer, Boolean> ... filters) {
-        Function res = new Function() {
+        Function<Integer, Boolean> res  = new Function<Integer, Boolean>() {
             @Override
-            public Object apply(Object o) {
-                return null;
+            public Boolean apply(Integer x) {
+                for (int i = 0; i < filters.length; i++){
+                    if(filters[i].apply(x)) {
+                        return true;
+                    }
+                }
+                return false;
             }
         };
         return res;
@@ -110,7 +116,7 @@ public class App
                     }
                 };
             }
-            Function<Integer, Boolean> filter = combineWithAnd(filters);
+            Function<Integer, Boolean> filter = combineWithOr(filters);
             printNumbers(Integer.parseInt(args[0]), Integer.parseInt(args[1]), filter);
             //PART 5
 //            int base = Integer.parseInt(args[2]);
