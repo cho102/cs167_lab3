@@ -116,8 +116,13 @@ public class App
                     }
                 };
             }
-            Function<Integer, Boolean> filter = combineWithOr(filters);
+            Function<Integer, Boolean> filter = combineWithAnd(filters);
+            if (args[2].contains("v")){
+                filter = combineWithOr(filters);
+            }
             printNumbers(Integer.parseInt(args[0]), Integer.parseInt(args[1]), filter);
+
+            
             //PART 5
 //            int base = Integer.parseInt(args[2]);
 //            printNumbers(Integer.parseInt(args[0]), Integer.parseInt(args[1]), base);
