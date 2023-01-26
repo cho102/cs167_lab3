@@ -67,13 +67,15 @@ public class App
 
     //PART 6
     public static Function<Integer, Boolean> combineWithAnd(Function<Integer, Boolean> ... filters) {
-        Function res = new Function() {
+        Function<Integer, Boolean> res  = new Function<Integer, Boolean>() {
             @Override
-            public Object apply(Object o) {
-                for(int  i  =0; i < filters.length; i++) {
-
+            public Boolean apply(Integer x) {
+                for (int i = 0; i < filters.length; i++){
+                    if(!filters[i].apply(x)) {
+                        return false;
+                    }
                 }
-                return null;
+                return true;
             }
         };
         return res;
