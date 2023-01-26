@@ -37,13 +37,13 @@ public class App
 //            return x % 3 == 0;
 //        }
 //    }
-//    public static void printNumbers(int from, int to, Function<Integer, Boolean> filter){
-//        for (int i= from; i <= to; ++i){
-//            if (filter.apply(i)){
-//                System.out.println(i);
-//            }
-//        }
-//    }
+    public static void printNumbers(int from, int to, Function<Integer, Boolean> filter){
+        for (int i= from; i <= to; ++i){
+            if (filter.apply(i)){
+                System.out.println(i);
+            }
+        }
+    }
 
     //PART 4
 //    Function<Integer, Boolean> divisibleByFive = new Function<Integer, Boolean>() {
@@ -65,6 +65,29 @@ public class App
 //        }
 //    }
 
+    //PART 6
+    public static Function<Integer, Boolean> combineWithAnd(Function<Integer, Boolean> ... filters) {
+        Function res = new Function() {
+            @Override
+            public Object apply(Object o) {
+                for(int  i  =0; i < filters.length; i++) {
+
+                }
+                return null;
+            }
+        };
+        return res;
+    }
+    public static Function<Integer, Boolean> combineWithOr(Function<Integer, Boolean> ... filters) {
+        Function res = new Function() {
+            @Override
+            public Object apply(Object o) {
+                return null;
+            }
+        };
+        return res;
+    }
+
     public static void main( String[] args )
     {
         if (args.length !=3) {
@@ -73,12 +96,20 @@ public class App
         }
         else {
             //PART 6
-//            String str = args[2];
-//            String[] bases = str.split("[,v]+");
-//            Function<Integer, Boolean>[] filters = new Function[bases.length];
-//            public static Function<Integer, Boolean> combineWithAnd(Function<Integer, Boolean> ... filters) {}
-//            public static Function<Integer, Boolean> combineWithOr(Function<Integer, Boolean> ... filters) {}
-
+            String str = args[2];
+            String[] bases = str.split("[,v]+");
+            Function<Integer, Boolean>[] filters = new Function[bases.length];
+            for(int i=0; i < bases.length; ++i){
+                int v = Integer.parseInt(bases[i]);
+                filters[i] = new Function<Integer, Boolean>() {
+                    @Override
+                    public Boolean apply(Integer x) {
+                        return x%v==0;
+                    }
+                };
+            }
+            Function<Integer, Boolean> filter = combineWithAnd(filters);
+            printNumbers(Integer.parseInt(args[0]), Integer.parseInt(args[1]), filter);
             //PART 5
 //            int base = Integer.parseInt(args[2]);
 //            printNumbers(Integer.parseInt(args[0]), Integer.parseInt(args[1]), base);
