@@ -10,9 +10,6 @@
 ## Answers
 
 - **(Q1)** Which of the following is the right way to call the `IsEven` function.
-
-    - IsEven(5)
-    - IsEven.apply(5)
     - new IsEven().apply(5)
 
 - **(Q2)** Did the program compile?
