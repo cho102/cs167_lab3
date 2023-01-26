@@ -5,6 +5,25 @@ import java.util.function.Function;
 
 public class App
 {
+    //PART 2
+    public static void printEvenNumbers(int from, int to) {
+        System.out.printf("Printing numbers in the range [%d,%d]\n", from, to);
+        for (int i = from; i <= to; ++i){
+            if (i%2 == 0){
+                System.out.println(i);
+            }
+        }
+    }
+    public static void printNumbersDivisibleByThree(int from, int to){
+        System.out.printf("Printing numbers in the range [%d,%d]\n", from, to);
+        for (int i = from; i <= to; ++i){
+            if (i%3 == 0){
+                System.out.println(i);
+            }
+        }
+    }
+
+    //PART 3
     static class IsEven implements Function<Integer, Boolean> {
         @Override
         public Boolean apply(Integer x) {
@@ -17,25 +36,23 @@ public class App
             return x % 3 == 0;
         }
     }
+    Function<Integer, Boolean> filter = x -> x%2==0;
 
-    public static Function<Integer, Boolean> filter = x -> x==2 ;
-    public static void printNumbers(int from, int to, Function<Integer, Boolean> filter) {
-        System.out.printf("Printing numbers in the range [%d,%d]\n", from, to);
-    }
-
-    public static void printEvenNumbers(int from, int to) {
-        System.out.printf("Printing numbers in the range [%d,%d]\n", from, to);
-        for (int i = from; i < to; ++i){
-            if (i%2 == 0){
-                System.out.println(i);
-            }
+    //PART 4
+    Function<Integer, Boolean> divisibleByFive = new Function<Integer, Boolean>() {
+        @Override
+        public Boolean apply(Integer x) {
+            return x % 5 == 0;
         }
-    }
+    };
+    Function<Integer, Boolean> divisibleByTen = x -> x % 10 == 0;
 
-    public static void printNumbersDivisibleByThree(int from, int to){
+    //PART  5
+    public static void printNumbers(int from, int to, int base) {
+        Function<Integer, Boolean> divisibleByBase = x -> x%base==0;
         System.out.printf("Printing numbers in the range [%d,%d]\n", from, to);
-        for (int i = from; i < to; ++i){
-            if (i%3 == 0){
+        for(int i=from; i <= to; i++){
+            if(divisibleByBase.apply(i)){
                 System.out.println(i);
             }
         }
@@ -48,7 +65,13 @@ public class App
             System.exit(-1);
         }
         else {
-            printNumbers(Integer.parseInt(args[0]), Integer.parseInt(args[1]), filter);
+
+
+            //PART 5
+            int base = Integer.parseInt(args[2]);
+            printNumbers(Integer.parseInt(args[0]), Integer.parseInt(args[1]), base);
+
+            //PART 2
             /*if (Integer.parseInt(args[2]) == 2) {
                 printEvenNumbers(Integer.parseInt(args[0]), Integer.parseInt(args[1]));
             }
@@ -56,8 +79,7 @@ public class App
                 printNumbersDivisibleByThree(Integer.parseInt(args[0]), Integer.parseInt(args[1]));
             }
              */
+
         }
-        System.out.println( "Hello World!" );
-        System.out.print(new IsEven().apply(5));
     }
 }
