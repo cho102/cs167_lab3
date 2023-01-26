@@ -67,33 +67,27 @@ public class App
 //    }
 
     //PART 6
+    @SafeVarargs
     public static Function<Integer, Boolean> combineWithAnd(Function<Integer, Boolean> ... filters) {
-        Function<Integer, Boolean> res  = new Function<Integer, Boolean>() {
-            @Override
-            public Boolean apply(Integer x) {
-                for (int i = 0; i < filters.length; i++){
-                    if(!filters[i].apply(x)) {
-                        return false;
-                    }
+        return x -> {
+            for (Function<Integer, Boolean> filter : filters) {
+                if (!filter.apply(x)) {
+                    return false;
                 }
-                return true;
             }
+            return true;
         };
-        return res;
     }
+    @SafeVarargs
     public static Function<Integer, Boolean> combineWithOr(Function<Integer, Boolean> ... filters) {
-        Function<Integer, Boolean> res  = new Function<Integer, Boolean>() {
-            @Override
-            public Boolean apply(Integer x) {
-                for (int i = 0; i < filters.length; i++){
-                    if(filters[i].apply(x)) {
-                        return true;
-                    }
+        return x -> {
+            for (Function<Integer, Boolean> filter : filters) {
+                if (filter.apply(x)) {
+                    return true;
                 }
-                return false;
             }
+            return false;
         };
-        return res;
     }
 
     public static void main( String[] args )
@@ -109,12 +103,7 @@ public class App
             Function<Integer, Boolean>[] filters = new Function[bases.length];
             for(int i=0; i < bases.length; ++i){
                 int v = Integer.parseInt(bases[i]);
-                filters[i] = new Function<Integer, Boolean>() {
-                    @Override
-                    public Boolean apply(Integer x) {
-                        return x%v==0;
-                    }
-                };
+                filters[i] = x -> x%v==0;
             }
             Function<Integer, Boolean> filter = combineWithAnd(filters);
             if (args[2].contains("v")){
@@ -122,7 +111,7 @@ public class App
             }
             printNumbers(Integer.parseInt(args[0]), Integer.parseInt(args[1]), filter);
 
-            
+
             //PART 5
 //            int base = Integer.parseInt(args[2]);
 //            printNumbers(Integer.parseInt(args[0]), Integer.parseInt(args[1]), base);
@@ -130,8 +119,8 @@ public class App
             //PART 3
 //            Function<Integer, Boolean> filter = new Function<Integer, Boolean>() {
 //                @Override
-//                public Boolean apply(Integer integer) {
-//                    return integer%Integer.parseInt(args[2])==0;
+//                public Boolean apply(Integer r) {
+//                    return r%Integer.parseInt(args[2])==0;
 //                }
 //            };
 //            printNumbers(Integer.parseInt(args[0]), Integer.parseInt(args[1]), filter);
